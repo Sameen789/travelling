@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keshu_travelling - Explore Sri Lanka</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2d5a27;
+            --ocean-blue: #1e6091;
+            --sandy-yellow: #f4a261;
+            --light-green: #a3b18a;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(45, 90, 39, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--sandy-yellow);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%231e6091" width="1200" height="400"/><rect fill="%232d5a27" y="400" width="1200" height="400"/><circle fill="%23f4a261" cx="150" cy="200" r="80"/><path fill="%23a3b18a" d="M0 600 Q300 500 600 600 T1200 600 L1200 800 L0 800 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .cta-button {
+            background: var(--sandy-yellow);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .cta-button:hover {
+            background: var(--ocean-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-green);
+        }
+
+        /* Popular Destinations */
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .destination-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .destination-image {
+            height: 200px;
+            background: linear-gradient(45deg, var(--ocean-blue), var(--light-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--white);
+        }
+
+        .destination-info {
+            padding: 1.5rem;
+        }
+
+        .destination-info h3 {
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Categories */
+        .categories {
+            background: var(--light-gray);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            background: var(--primary-green);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            background: var(--sandy-yellow);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background: var(--ocean-blue);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-green);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .destinations-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll effect */
+        .scroll-effect {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-effect.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Keshu_travelling</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#destinations">Destinations</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Discover the Pearl of the Indian Ocean</h1>
+            <p>Experience the magic of Sri Lanka - where ancient culture meets pristine beaches</p>
+            <button class="cta-button" onclick="startJourney()">Start Your Journey</button>
+        </div>
+    </section>
+
+    <!-- Popular Destinations -->
+    <section id="destinations">
+        <h2 class="section-title scroll-effect">Popular Destinations</h2>
+        <div class="destinations-grid">
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('sigiriya')">
+                <div class="destination-image">🏔️</div>
+                <div class="destination-info">
+                    <h3>Sigiriya Rock Fortress</h3>
+                    <p>Ancient palace ruins atop a massive rock column, offering breathtaking views and fascinating history.</p>
+                </div>
+            </div>
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('ella')">
+                <div class="destination-image">🌿</div>
+                <div class="destination-info">
+                    <h3>Ella</h3>
+                    <p>Scenic hill country town with tea plantations, waterfalls, and the famous Nine Arches Bridge.</p>
+                </div>
+            </div>
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('mirissa')">
+                <div class="destination-image">🏖️</div>
+                <div class="destination-info">
+                    <h3>Mirissa Beach</h3>
+                    <p>Pristine beach paradise perfect for surfing, whale watching, and relaxing tropical getaways.</p>
+                </div>
+            </div>
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('kandy')">
+                <div class="destination-image">🛕</div>
+                <div class="destination-info">
+                    <h3>Kandy</h3>
+                    <p>Cultural capital home to the sacred Temple of the Tooth and beautiful botanical gardens.</p>
+                </div>
+            </div>
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('yala')">
+                <div class="destination-image">🐘</div>
+                <div class="destination-info">
+                    <h3>Yala National Park</h3>
+                    <p>Wildlife sanctuary famous for leopard sightings and diverse flora and fauna.</p>
+                </div>
+            </div>
+            <div class="destination-card scroll-effect" onclick="showDestinationDetails('galle')">
+                <div class="destination-image">🏰</div>
+                <div class="destination-info">
+                    <h3>Galle Fort</h3>
+                    <p>Colonial-era fortified city with Dutch architecture and stunning ocean views.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="categories">
+        <h2 class="section-title scroll-effect">Explore by Category</h2>
+        <div class="category-grid">
+            <div class="category-card scroll-effect" onclick="filterByCategory('beaches')">
+                <div class="category-icon">🏖️</div>
+                <h3>Beaches</h3>
+                <p>Paradise beaches with golden sand and crystal waters</p>
+            </div>
+            <div class="category-card scroll-effect" onclick="filterByCategory('hills')">
+                <div class="category-icon">⛰️</div>
+                <h3>Hill Country</h3>
+                <p>Cool climate mountains and tea plantations</p>
+            </div>
+            <div class="category-card scroll-effect" onclick="filterByCategory('culture')">
+                <div class="category-icon">🏛️</div>
+                <h3>Culture</h3>
+                <p>Ancient temples and rich heritage sites</p>
+            </div>
+            <div class="category-card scroll-effect" onclick="filterByCategory('wildlife')">
+                <div class="category-icon">🦌</div>
+                <h3>Wildlife</h3>
+                <p>National parks and diverse wildlife</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title scroll-effect">About Sri Lanka Tourism</h2>
+        <div class="about-content scroll-effect">
+            <p>Sri Lanka, the pearl of the Indian Ocean, is a tropical paradise that offers an incredible diversity of experiences. From pristine beaches to ancient cultural sites, from misty mountains to wildlife-rich national parks, this island nation has something for every traveler.</p>
+            <br>
+            <p>With over 2,000 years of history, stunning biodiversity, and warm hospitality, Sri Lanka promises unforgettable adventures whether you're seeking relaxation, adventure, cultural immersion, or spiritual enlightenment.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title scroll-effect">Plan Your Trip</h2>
+        <form class="contact-form scroll-effect" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Tell us about your dream Sri Lanka trip..." required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Send Inquiry</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Keshu_travelling. Discover the beauty of Sri Lanka.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll effects
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-effect').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navigation background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(45, 90, 39, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(45, 90, 39, 0.95)';
+            }
+        });
+
+        // Interactive functions
+        function startJourney() {
+            alert('Welcome to Sri Lanka! Let us help you plan your perfect journey.');
+            document.querySelector('#destinations').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showDestinationDetails(destination) {
+            const destinations = {
+                'sigiriya': 'Sigiriya - The 8th Wonder of the World! Climb the ancient rock fortress built in the 5th century.',
+                'ella': 'Ella - Paradise in the hills! Experience the famous train ride and stunning mountain views.',
+                'mirissa': 'Mirissa - Tropical beach heaven! Perfect for whale watching and surfing adventures.',
+                'kandy': 'Kandy - The cultural heart! Visit the sacred Temple of the Tooth Relic.',
+                'yala': 'Yala - Wildlife adventure! Home to the highest density of leopards in the world.',
+                'galle': 'Galle - Colonial charm! Walk through centuries of Dutch and Portuguese history.'
+            };
+            
+            alert(destinations[destination] || 'Amazing destination waiting for you!');
+        }
+
+        function filterByCategory(category) {
+            const messages = {
+                'beaches': 'Discover pristine beaches like Unawatuna, Bentota, and Arugam Bay!',
+                'hills': 'Explore the cool climate of Nuwara Eliya and the tea country!',
+                'culture': 'Immerse yourself in ancient cities like Anuradhapura and Polonnaruwa!',
+                'wildlife': 'Go on safari in Yala, Udawalawe, and Minneriya national parks!'
+            };
+            
+            alert(messages[category] || 'Explore the best of Sri Lanka!');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your inquiry! We will contact you soon to help plan your perfect Sri Lanka adventure.');
+            event.target.reset();
+        }
+
+        // Add some dynamic content
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add current year to footer
+            const currentYear = new Date().getFullYear();
+            document.querySelector('footer p').innerHTML = `&copy; ${currentYear} Keshu_travelling. Discover the beauty of Sri Lanka.`;
+            
+            // Add welcome message
+            setTimeout(() => {
+                console.log('🌴 Welcome to Keshu_travelling - Your gateway to Sri Lanka! 🌴');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
